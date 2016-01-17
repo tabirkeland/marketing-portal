@@ -11,36 +11,41 @@
 |
 */
 
-Route::get('/', ['as' => 'home', function () {
-    return view('marketing.home');
-}]);
 
-Route::get('about', ['as' => 'about', function () {
-	return view('marketing.about');
-}]);
+/*
+* Marketing site routes
+*/
+Route::get('/', ['as' => 'home', 'uses' => 'MarketingController@getHome']);
+Route::get('about', ['as' => 'about', 'uses' => 'MarketingController@getAbout']);
+Route::get('services', ['as' => 'services', 'uses' => 'MarketingController@services']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'MarketingController@getContact']);
+Route::post('contact/form', ['as' => 'contact.form', 'uses' => 'MarketingController@postContactForm']);
 
-Route::get('services', ['as' => 'services', function () {
-	return view('marketing.services');
-}]);
-
-Route::get('contact', ['as' => 'contact', function () {
-	return view('marketing.contact');
-}]);
-
-Route::get('login', ['as' => 'login', 'middleware' => 'web', 'uses' => 'Auth\AuthController@showLoginForm']);
-
-Route::post('login', ['as' => 'login', 'middleware' => 'web', 'uses' => 'Auth\AuthController@postLogin']);
-
-Route::get('logout', ['as' => 'logout', 'middleware' => 'web', 'uses' => 'Auth\AuthController@getLogout']);
-
-Route::group(['prefix' => 'password', 'middleware' => 'web'], function () {
-	Route::get('reset', ['as' => 'password.reset', 'uses' => 'Auth\PasswordController@getReset']);
-});
-
+/*
+* Client portal routes
+*/
 Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'portal'], function () {
-	Route::auth();
-
 	Route::get('/', ['as' => 'portal.home', function () {
 		return view('portal.home');
 	}]);
+});
+
+/*
+* Login/logout routes
+*/
+Route::get('login', ['as' => 'login', 'middleware' => 'web', 'uses' => 'Auth\AuthController@showLoginForm']);
+Route::post('login', ['as' => 'login', 'middleware' => 'web', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('logout', ['as' => 'logout', 'middleware' => 'web', 'uses' => 'Auth\AuthController@getLogout']);
+
+/*
+* Password reset routes
+*/
+Route::group(['prefix' => 'password', 'middleware' => 'web'], function () {
+	// Password reset link request routes...
+	Route::get('/email', 'Auth\PasswordController@getEmail');
+	Route::post('/email', 'Auth\PasswordController@postEmail');
+
+	// Password reset routes...
+	Route::get('/reset/{token?}', 'Auth\PasswordController@getReset');
+	Route::post('/reset', 'Auth\PasswordController@postReset');
 });

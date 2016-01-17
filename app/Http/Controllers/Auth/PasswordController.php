@@ -20,6 +20,8 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
 
+    protected $redirectTo = '/portal';
+
     /**
      * Create a new password controller instance.
      *
