@@ -63,8 +63,9 @@
         <div class="row">
             <div class="col-md-8">
                 <h3>Send us a Message</h3>
-                <form name="sentMessage" id="contactForm" method="POST" action="/contact/form" novalidate>
-                    {!! csrf_field() !!}
+                <form name="sentMessage" id="contactForm" role="form" method="POST" action="/contact">
+                    <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
+
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Full Name:</label>
@@ -90,14 +91,14 @@
                             <textarea rows="10" cols="100" class="form-control" id="message" name="message" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
                         </div>
                     </div>
-                    @if (session('status'))
+                    @if (Session::has('status'))
                         <div class="alert alert-success">
-                            {{ session('status') }}
+                            {{ Session::get('status') }}
                         </div>
                     @endif
-                    @if (session('error'))
+                    @if (Session::has('error_message'))
                         <div class="alert alert-danger">
-                            {{ session('error') }}
+                            {{ Session::get('error_message') }}
                         </div>  
                     @endif
                     <button type="submit" class="btn btn-primary">Send Message</button>

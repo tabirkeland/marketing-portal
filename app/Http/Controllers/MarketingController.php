@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Mail;
 use Input;
 use Redirect;
+use Session;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -25,27 +26,27 @@ class MarketingController extends Controller
      *
      * @return Response
      */
-    public function getHome()
+    public function getHome(Request $request)
     {
         return view('marketing.home');
     }
 
-    public function getAbout()
+    public function getAbout(Request $request)
     {
         return view('marketing.about');
     }
 
-    public function getServices()
+    public function getServices(Request $request)
     {
         return view('marketing.services');
     }
 
-    public function getContact()
+    public function getContact(Request $request)
     {
         return view('marketing.contact');
     }
 
-    public function postContactForm()
+    public function postContactForm(Request $request)
     {
         $form = Input::all();
 
@@ -59,6 +60,6 @@ class MarketingController extends Controller
             return redirect('contact')->with('status', 'Your message was successfully sent!');
         }
 
-        return redirect('contact')->with('error', 'Sorry, we were unable to send your message.');
+        return redirect('contact.get')->with('error_message', 'Sorry, we were unable to send your message.');
     }
 }

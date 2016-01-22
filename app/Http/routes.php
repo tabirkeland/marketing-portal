@@ -18,8 +18,8 @@
 Route::get('/', ['as' => 'home', 'uses' => 'MarketingController@getHome']);
 Route::get('about', ['as' => 'about', 'uses' => 'MarketingController@getAbout']);
 Route::get('services', ['as' => 'services', 'uses' => 'MarketingController@services']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'MarketingController@getContact']);
-Route::post('contact/form', ['as' => 'contact.form', 'uses' => 'MarketingController@postContactForm']);
+Route::get('contact', ['as' => 'contact.get', 'uses' => 'MarketingController@getContact']);
+Route::post('contact', ['as' => 'contact.post', 'uses' => 'MarketingController@postContactForm']);
 
 /*
 * Client portal routes
